@@ -1,0 +1,15 @@
+{
+  "name": "blackroad-monorepo",
+  "private": true,
+  "packageManager": "pnpm@8.0.0",
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "scripts": {
+    "build": "pnpm -r run build"
+  },
+  "devDependencies": {
+    "@blackroad/ui": "workspace:packages/ui"
+  }
+}
