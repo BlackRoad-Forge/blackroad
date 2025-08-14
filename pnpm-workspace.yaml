@@ -1,0 +1,4 @@
+packages:
+  # Include all workspace packages
+  - 'packages/*'
+  - 'apps/*'
