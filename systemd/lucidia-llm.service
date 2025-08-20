@@ -1,0 +1,14 @@
+[Unit]
+Description=Lucidia Local LLM (llama.cpp server)
+After=network.target
+
+[Service]
+WorkingDirectory=/srv/llama.cpp
+ExecStart=/srv/llama.cpp/build/bin/llama-server -m /srv/models/tinyllama.gguf -c 4096 --host 127.0.0.1 --port 8083
+Restart=always
+RestartSec=2
+User=www-data
+Group=www-data
+
+[Install]
+WantedBy=multi-user.target

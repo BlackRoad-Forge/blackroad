@@ -1,0 +1,12 @@
+[Unit]
+Description=BlackRoad API
+After=network.target
+[Service]
+WorkingDirectory=/srv/blackroad-api
+ExecStart=/usr/bin/node server.js
+Environment=NODE_ENV=production
+User=www-data
+Group=www-data
+Restart=always
+[Install]
+WantedBy=multi-user.target
