@@ -17,6 +17,7 @@
     "@types/react": "^18.2.0",
     "@types/node": "^20.4.2",
     "typescript": "^5.1.6",
-    "@next/mdx": "13.4.12"
+    "@next/mdx": "13.4.12",
+    "@mdx-js/loader": "^2.3.0"
   }
 }
