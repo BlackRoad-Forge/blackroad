@@ -1,17 +1,14 @@
 {
-  "name": "blackroad-monorepo",
+  "name": "blackroad-api",
+  "version": "1.0.0",
+  "description": "BlackRoad backend API service",
+  "main": "server_full.js",
   "private": true,
-  "packageManager": "pnpm@8.15.8",
-  "workspaces": [
-    "packages/*",
-    "apps/*"
-  ],
+  "license": "MIT",
   "scripts": {
-    "build": "pnpm -r run build"
+    "start": "node server_full.js"
   },
-  "devDependencies": {
-    "@blackroad/ui": "workspace:*",
-    "@types/react": "^18.0.0",
-    "@types/react-dom": "^18.0.0"
+  "dependencies": {
+    "express": "^4.18.2"
   }
 }
