@@ -34,16 +34,22 @@ app.post('/api/homework', (req, res) => {
   res.status(201).json(hw);
 });
 
-const server = http.createServer(app);
-const io = new Server(server, {
-  path: '/socket.io'
-});
+// Export app and homeworks array for testing
+module.exports = { app, homeworks };
 
-io.on('connection', socket => {
-  // placeholder for socket events
-});
+// Only start the server when run directly (not when imported by tests)
+if (require.main === module) {
+  const server = http.createServer(app);
+  const io = new Server(server, {
+    path: '/socket.io'
+  });
 
-const PORT = process.env.PORT || 4000;
-server.listen(PORT, () => {
-  console.log(`API listening on port ${PORT}`);
-});
+  io.on('connection', socket => {
+    // placeholder for socket events
+  });
+
+  const PORT = process.env.PORT || 4000;
+  server.listen(PORT, () => {
+    console.log(`API listening on port ${PORT}`);
+  });
+}
