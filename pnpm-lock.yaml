@@ -11,6 +11,13 @@ importers:
       express:
         specifier: ^4.18.2
         version: 4.22.1
+    devDependencies:
+      supertest:
+        specifier: ^7.2.2
+        version: 7.2.2
+      vitest:
+        specifier: ^4.0.18
+        version: 4.0.18(@types/node@20.19.33)(jiti@1.21.7)(jsdom@28.1.0(@noble/hashes@1.8.0))(terser@5.46.0)
 
   apps/api:
     dependencies:
