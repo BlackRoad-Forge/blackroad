@@ -1,0 +1,48 @@
+name: 📡 Agent Broadcast via NATS
+
+on:
+  workflow_dispatch:
+    inputs:
+      subject:
+        description: 'NATS subject (e.g. blackroad.agents.all)'
+        required: false
+        default: 'blackroad.agents.all'
+      message:
+        description: 'Message to broadcast'
+        required: true
+  schedule:
+    - cron: '*/30 * * * *'  # Every 30 min heartbeat
+
+jobs:
+  broadcast:
+    name: 📡 Broadcast to Fleet
+    runs-on: [self-hosted, blackroad]
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Send NATS heartbeat
+        run: |
+          SUBJECT="${{ github.event.inputs.subject || 'blackroad.heartbeat' }}"
+          MSG="${{ github.event.inputs.message || 'heartbeat' }}"
+          TIMESTAMP=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+          
+          # Try NATS - non-fatal if unavailable
+          if command -v nats >/dev/null 2>&1; then
+            nats pub "$SUBJECT" "{\"msg\":\"$MSG\",\"ts\":\"$TIMESTAMP\",\"runner\":\"$(hostname)\"}" \
+              --server nats://192.168.4.38:4222 2>/dev/null && echo "✅ NATS published" || true
+          fi
+          
+          # Fallback: write heartbeat to shared state
+          mkdir -p shared/signals
+          cat > shared/signals/heartbeat.json << HEARTBEAT
+          {"subject":"$SUBJECT","message":"$MSG","timestamp":"$TIMESTAMP","runner":"$(hostname)","status":"ok"}
+HEARTBEAT
+          echo "📡 Broadcast: $SUBJECT → $MSG @ $TIMESTAMP"
+          
+      - name: Update fleet status
+        run: |
+          echo "Runner: $(hostname)" > shared/signals/fleet-status.txt
+          echo "Time: $(date -u)" >> shared/signals/fleet-status.txt
+          echo "Jobs completed: ok" >> shared/signals/fleet-status.txt
+          cat shared/signals/fleet-status.txt
