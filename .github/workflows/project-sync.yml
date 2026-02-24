@@ -6,7 +6,7 @@ on:
 
 jobs:
   add-to-project:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, blackroad-fleet]
     continue-on-error: true
     steps:
       - uses: actions/add-to-project@v1.0.2
