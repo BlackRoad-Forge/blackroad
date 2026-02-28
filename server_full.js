@@ -64,13 +64,29 @@ app.post('/api/stripe/products/sync', async (req, res) => {
     const synced = [];
 
     for (const product of catalog) {
-      const created = await stripe.products.create({
-        name: product.name,
-        description: product.description,
-        active: product.active,
-        metadata: { blackroad_id: product.id, tier: product.tier, ...product.metadata }
+      // Check if product already exists in Stripe by blackroad_id metadata
+      const existing = await stripe.products.search({
+        query: `metadata["blackroad_id"]:"${product.id}"`
       });
-      synced.push({ id: product.id, stripe_id: created.id });
+
+      let stripeProduct;
+      if (existing.data.length > 0) {
+        stripeProduct = await stripe.products.update(existing.data[0].id, {
+          name: product.name,
+          description: product.description,
+          active: product.active,
+          metadata: { blackroad_id: product.id, tier: product.tier, ...product.metadata }
+        });
+        synced.push({ id: product.id, stripe_id: stripeProduct.id, action: 'updated' });
+      } else {
+        stripeProduct = await stripe.products.create({
+          name: product.name,
+          description: product.description,
+          active: product.active,
+          metadata: { blackroad_id: product.id, tier: product.tier, ...product.metadata }
+        });
+        synced.push({ id: product.id, stripe_id: stripeProduct.id, action: 'created' });
+      }
     }
 
     res.json({ synced, count: synced.length });
@@ -97,7 +113,7 @@ app.post('/api/llm/chat', async (req, res) => {
     if (typeof message !== 'string' || !message.trim()) {
       return res.status(400).json({ error: 'message (string) required' });
     }
-    const llmUrl = config.llm.baseUrl.replace(/\/$/, '');
+    const llmUrl = config.llm.baseUrl;
     const r = await fetch(`${llmUrl}/chat`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },

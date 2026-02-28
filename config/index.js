@@ -42,7 +42,7 @@ function loadConfig() {
     },
 
     llm: {
-      baseUrl: process.env.LLM_BASE_URL || 'http://127.0.0.1:8083'
+      baseUrl: (process.env.LLM_BASE_URL || 'http://127.0.0.1:8083').replace(/\/$/, '')
     },
 
     s3: {
