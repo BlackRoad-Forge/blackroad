@@ -8,17 +8,30 @@ const server = http.createServer(app);
 
 app.use(express.json());
 
+// Security headers
+app.use((req, res, next) => {
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+  res.setHeader('X-Frame-Options', 'SAMEORIGIN');
+  res.setHeader('X-XSS-Protection', '1; mode=block');
+  res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
+  next();
+});
+
 // Hello World
 app.get('/api/hello', (req, res) => {
-  res.json({ message: 'Hello World from BlackRoad.io + Lucidia 🚀' });
+  res.json({ message: 'Hello World from BlackRoad.io + Lucidia' });
 });
 
 // Health
 app.get('/health', (req, res) => {
-  res.json({ status: 'ok', service: 'blackroad-api' });
+  res.json({ status: 'ok', service: 'blackroad-api', timestamp: new Date().toISOString() });
 });
 
-// Chat bridge
+app.get('/api/health', (req, res) => {
+  res.json({ status: 'ok', service: 'blackroad-api', timestamp: new Date().toISOString() });
+});
+
+// Chat bridge to Lucidia LLM
 app.post('/api/llm/chat', async (req, res) => {
   try {
     const { message } = req.body ?? {};

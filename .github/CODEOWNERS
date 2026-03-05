@@ -1,0 +1,18 @@
+# BlackRoad OS — Code Owners
+# These owners are automatically requested for review on PRs.
+
+# Default owners for everything
+* @blackboxprogramming
+
+# Workflows and CI
+.github/ @blackboxprogramming
+
+# Infrastructure
+nginx/ @blackboxprogramming
+systemd/ @blackboxprogramming
+workers/ @blackboxprogramming
+wrangler.toml @blackboxprogramming
+
+# Core packages
+packages/ @blackboxprogramming
+apps/ @blackboxprogramming

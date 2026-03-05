@@ -6,13 +6,16 @@ interface Homework {
   description: string;
 }
 
+const API_BASE =
+  typeof window !== 'undefined' ? window.location.origin : '';
+
 export default function HomeworkPortal() {
   const [homeworks, setHomeworks] = useState<Homework[]>([]);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
 
   const fetchHomeworks = async () => {
-    const res = await fetch('http://localhost:4000/api/homework');
+    const res = await fetch(`${API_BASE}/api/homework`);
     const data = await res.json();
     setHomeworks(data);
   };
@@ -23,7 +26,7 @@ export default function HomeworkPortal() {
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
-    await fetch('http://localhost:4000/api/homework', {
+    await fetch(`${API_BASE}/api/homework`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ title, description })

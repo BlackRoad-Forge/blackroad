@@ -1,5 +1,6 @@
 node_modules/
 .env
+.env.*
 *.log
 *.sqlite
 *.db
@@ -9,3 +10,9 @@ __pycache__/
 dist/
 build/
 .next/
+.wrangler/
+.vercel/
+.turbo/
+*.tsbuildinfo
+coverage/
+.ssh/

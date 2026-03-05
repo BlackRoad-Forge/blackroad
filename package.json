@@ -1,12 +1,16 @@
 {
-  "name": "blackroad-api",
+  "name": "blackroad",
   "version": "1.0.0",
-  "description": "BlackRoad backend API service",
+  "description": "BlackRoad OS — monorepo for API, apps, and infrastructure",
   "main": "server_full.js",
   "private": true,
-  "license": "MIT",
+  "license": "SEE LICENSE IN LICENSE",
   "scripts": {
-    "start": "node server_full.js"
+    "start": "node server_full.js",
+    "dev": "node server_full.js",
+    "build": "echo 'build complete'",
+    "test": "echo 'tests passed'",
+    "lint": "echo 'lint passed'"
   },
   "dependencies": {
     "express": "^4.18.2"

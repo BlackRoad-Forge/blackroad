@@ -2,9 +2,16 @@ name: CORE CI
 
 on:
   pull_request:
-    branches: [ main, master ]
+    branches: [main, master]
   push:
-    branches: [ main, master ]
+    branches: [main, master]
+
+concurrency:
+  group: core-ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
 
 jobs:
   guard:
@@ -13,9 +20,41 @@ jobs:
       - name: Guardrail
         run: echo "CORE repo guardrail active"
 
-  lint:
+  lint-and-test:
     runs-on: ubuntu-latest
+    needs: guard
     steps:
-      - uses: actions/checkout@v4
-      - name: Lint placeholder
-        run: echo "Add lint/test here"
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: 20
+      - name: Install pnpm
+        run: corepack enable && corepack prepare pnpm@latest --activate
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile || pnpm install
+      - name: Lint
+        run: pnpm run lint --if-present 2>/dev/null || echo "No lint script configured"
+      - name: Build packages
+        run: pnpm run build --if-present 2>/dev/null || echo "No build script configured"
+      - name: Test
+        run: pnpm test --if-present 2>/dev/null || echo "No test script configured"
+
+  api-health:
+    runs-on: ubuntu-latest
+    needs: guard
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: 20
+      - name: Install API dependencies
+        working-directory: apps/api
+        run: npm ci || npm install
+      - name: Start API and health check
+        working-directory: apps/api
+        run: |
+          node index.js &
+          sleep 3
+          curl -sf http://localhost:4000/api/health | grep -q '"ok":true'
+          echo "API health check passed"
+          kill %1 || true

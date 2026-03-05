@@ -4,12 +4,15 @@ on:
   pull_request:
     types: [opened, reopened]
 
+permissions:
+  contents: read
+
 jobs:
   add-to-project:
     runs-on: ubuntu-latest
     continue-on-error: true
     steps:
-      - uses: actions/add-to-project@v1.0.2
+      - uses: actions/add-to-project@244f685bbc3b7adfa8466e08b698b5577571133e # v1.0.2
         continue-on-error: true
         with:
           project-url: https://github.com/users/blackboxprogramming/projects/8

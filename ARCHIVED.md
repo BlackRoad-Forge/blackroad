@@ -1,23 +1,15 @@
-# ⚠️ This Repository is Legacy/Archived
+# Repository Status
 
-This repository is part of the legacy `blackboxprogramming` organization and is **not actively maintained**.
+This repository is actively maintained by **BlackRoad OS, Inc.**
 
-## Current Development
+## Organization Links
 
-Active development has moved to the **BlackRoad-OS** organization:
-
-👉 https://github.com/BlackRoad-OS
-
-## Related Active Repos
-
-| Legacy Repo | Current Repo |
-|-------------|--------------|
-| blackboxprogramming/blackroad | BlackRoad-OS/blackroad-os |
-| blackboxprogramming/blackroad-api | BlackRoad-OS/blackroad-os-api |
-| blackboxprogramming/blackroad-operator | BlackRoad-OS/blackroad-os-operator |
-| blackboxprogramming/blackroad-prism-console | BlackRoad-OS/blackroad-os-prism-console |
-| blackboxprogramming/blackroad.io | BlackRoad-AI/BlackRoad.io |
+| Organization | Purpose |
+|-------------|---------|
+| [blackboxprogramming](https://github.com/blackboxprogramming) | Primary development |
+| [BlackRoad-OS](https://github.com/BlackRoad-OS) | OS platform repos |
+| [BlackRoad-AI](https://github.com/BlackRoad-AI) | AI and ML services |
 
 ## Questions?
 
-Open an issue in the appropriate [BlackRoad-OS](https://github.com/BlackRoad-OS) repo.
+Open an issue in this repository or contact support@blackroad.io.
