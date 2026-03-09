@@ -12,7 +12,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "@mdx-js/react": "^2.3.0",
-    "@mdx-js/loader": "^2.3.0",
+    "@mdx-js/loader": "^3.1.1",
     "@blackroad/ui": "workspace:*"
   },
   "devDependencies": {
@@ -20,6 +20,6 @@
     "@types/node": "^20.4.2",
     "typescript": "^5.1.6",
     "@next/mdx": "13.4.12",
-    "@mdx-js/loader": "^2.3.0"
+    "@mdx-js/loader": "^3.1.1"
   }
 }
